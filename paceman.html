@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pac-Man Mini</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        canvas { background: black; display: block; margin: 20px auto; border: 4px solid blue; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🟡 Pac-Man Mini</h1>
+    <p>Use Arrow Keys to move Pac-Man and eat the ghost.</p>
+    <canvas id="pacmanCanvas" width="400" height="400"></canvas>
+    <a href="index.html" style="color:#666;">← Back Home</a>
+
+    <script>
+        const canvas = document.getElementById("pacmanCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        let pacman = { x: 50, y: 200, size: 20, speed: 5 };
+        let ghost = { x: 300, y: 200, size: 20 };
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Pac-Man
+            ctx.fillStyle = "yellow";
+            ctx.beginPath();
+            ctx.arc(pacman.x, pacman.y, pacman.size, 0.2 * Math.PI, 1.8 * Math.PI);
+            ctx.lineTo(pacman.x, pacman.y);
+            ctx.fill();
+
+            // Draw Basic Ghost
+            ctx.fillStyle = "red";
+            ctx.fillRect(ghost.x - 15, ghost.y - 15, 30, 30);
+            
+            // Basic touch check
+            let dist = Math.hypot(pacman.x - ghost.x, pacman.y - ghost.y);
+            if(dist < pacman.size + 15) {
+                ghost.x = Math.random() * 300 + 50;
+                ghost.y = Math.random() * 300 + 50;
+            }
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener("keydown", e => {
+            if (e.key === "ArrowLeft") pacman.x -= pacman.speed;
+            if (e.key === "ArrowRight") pacman.x += pacman.speed;
+            if (e.key === "ArrowUp") pacman.y -= pacman.speed;
+            if (e.key === "ArrowDown") pacman.y += pacman.speed;
+        });
+
+        draw();
+    </script>
+</body>
+</html>
