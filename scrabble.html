@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrabble Tiles</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .rack { display: flex; justify-content: center; gap: 10px; margin: 40px auto; max-width: 600px; background: #8B5A2B; padding: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .tile-piece { width: 50px; height: 50px; background: #F5DEB3; border: 2px solid #D2B48C; border-radius: 4px; font-weight: bold; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #333; }
+        .tile-piece:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <h1>🔤 Scrabble Sandbox</h1>
+    <p>Click Tiles to shuffle your letter rack!</p>
+    <div class="rack" id="rack"></div>
+    <button onclick="generateRack()" style="padding:10px 20px; font-size:1rem; cursor:pointer; border-radius:5px; border:none; background:#2ecc71; color:white;">Draw New Letters</button>
+    <br><br><br>
+    <a href="index.html" style="color:#666;">← Back Home</a>
+
+    <script>
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        function generateRack() {
+            const rack = document.getElementById('rack');
+            rack.innerHTML = '';
+            for (let i = 0; i < 7; i++) {
+                const randLetter = letters[Math.floor(Math.random() * letters.length)];
+                const tile = document.createElement('div');
+                tile.className = 'tile-piece';
+                tile.innerText = randLetter;
+                rack.appendChild(tile);
+            }
+        }
+        generateRack();
+    </script>
+</body>
+</html>
