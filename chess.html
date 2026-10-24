@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solitaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .solitaire-board { display: flex; justify-content: center; gap: 15px; margin: 30px auto; max-width: 800px; min-height: 400px; background: #007a3d; padding: 20px; border-radius: 12px; }
+        .column { background: rgba(0,0,0,0.1); width: 80px; min-height: 120px; border-radius: 6px; border: 2px dashed rgba(255,255,255,0.3); display: flex; flex-direction: column; align-items: center; padding-top: 10px; }
+        .card-item { width: 65px; height: 95px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; margin-bottom: -70px; cursor: pointer; user-select: none; border: 1px solid #ccc; }
+        .red-card { color: red; }
+        .black-card { color: black; }
+    </style>
+</head>
+<body>
+    <h1>🃏 Solitaire</h1>
+    <p>Drag and arrange the cards sequentially.</p>
+    <div class="solitaire-board" id="solitaireBoard">
+        <div class="column" id="col1"></div>
+        <div class="column" id="col2"></div>
+        <div class="column" id="col3"></div>
+        <div class="column" id="col4"></div>
+        <div class="column" id="col5"></div>
+        <div class="column" id="col6"></div>
+        <div class="column" id="col7"></div>
+    </div>
+    <a href="index.html" style="color:#666;">← Back Home</a>
+
+    <script>
+        const suits = ['♥', '♦', '♣', '♠'];
+        const values = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+        let deck = [];
+
+        function initSolitaire() {
+            deck = [];
+            for (let suit of suits) {
+                for (let val of values) {
+                    deck.push({ val, suit, color: (suit === '♥' || suit === '♦') ? 'red-card' : 'black-card' });
+                }
+            }
+            // Shuffle
+            deck.sort(() => Math.random() - 0.5);
+
+            for (let i = 1; i <= 7; i++) {
+                const col = document.getElementById(`col${i}`);
+                col.innerHTML = '';
+                for (let j = 0; j < i; j++) {
+                    const cardData = deck.pop();
+                    if (!cardData) break;
+                    const card = document.createElement('div');
+                    card.className = `card-item ${cardData.color}`;
+                    card.innerText = `${cardData.val}${cardData.suit}`;
+                    col.appendChild(card);
+                }
+            }
+        }
+        initSolitaire();
+    </script>
+</body>
+</html>
